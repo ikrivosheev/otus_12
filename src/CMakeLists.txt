@@ -11,5 +11,5 @@ set_target_properties(bulk_server PROPERTIES
    COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-target_link_libraries(bulk_server async server ${Boost_SYSTEM_LIBRARY} Threads::Threads)
+target_link_libraries(bulk_server bulk server ${Boost_SYSTEM_LIBRARY} Threads::Threads)
 target_include_directories(bulk_server INTERFACE ${Boost_INCLUDE_DIR})

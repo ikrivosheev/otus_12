@@ -11,7 +11,7 @@ set_target_properties(test_state gtest PROPERTIES
 target_link_libraries(test_state
     gtest
     ${CMAKE_THREAD_LIBS_INIT}
-    async
+    bulk 
 )
 
 target_include_directories(gtest PRIVATE ${GTEST_INCLUDE_DIRS})

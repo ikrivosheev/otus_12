@@ -1,5 +1,4 @@
-add_library(async 
-    async.cpp 
+add_library(bulk 
     record.cpp 
     logger.cpp 
     console_handler.cpp 
@@ -7,10 +6,10 @@ add_library(async
     state_machine.cpp
 )
 
-set_target_properties(async PROPERTIES
+set_target_properties(bulk PROPERTIES
    CXX_STANDARD 14
    CXX_STANDARD_REQUIRED ON
    COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-target_include_directories(async PUBLIC ${CMAKE_SOURCE_DIR})
+target_include_directories(bulk PUBLIC ${CMAKE_SOURCE_DIR})

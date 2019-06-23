@@ -2,7 +2,8 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-#include "lib/async.h"
+#include "lib/logger.h"
+#include "lib/console_handler.h"
 #include "server/server.h"
 #include "bulk_handler.h"
 

@@ -2,7 +2,8 @@
 #define BULK_HANDLER_H
 
 #include <memory>
-#include "lib/async.h"
+#include <string>
+#include "lib/state_machine.h"
 #include "server/protocol.h"
 #include "server/session.h"
 
@@ -17,8 +18,8 @@ class BulkProtocol: public Protocol {
         ~BulkProtocol() = default;
 
     private:
-        int _bulk;
-        async::handle_t _handler;
+        std::string _buffer;
+        StateMachine _state;
 };
 
 #endif // BULK_HANDLER_H
