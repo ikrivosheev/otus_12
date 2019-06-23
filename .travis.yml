@@ -1,5 +1,12 @@
 dist: xenial
 language: cpp 
+compiler: gcc
+
+# Boost
+addons:
+  apt:
+    packages: libboost-all-dev
+
 script:
 - cmake .
 - cmake --build .
