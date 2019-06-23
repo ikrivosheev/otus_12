@@ -7,4 +7,3 @@ set_target_properties(server PROPERTIES
 )
 
 target_include_directories(server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-

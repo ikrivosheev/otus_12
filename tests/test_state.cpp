@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "state_machine.h"
+#include "lib/state_machine.h"
 
 TEST(StateMachine, Command) {
     StateMachine state_machine(2);

@@ -1,19 +1,17 @@
 #include "session.h"
 
 
-Session::Session(tcp::socket socket, IHandler* handler): 
-    _handler(handler), _socket(std::move(socket)) {}
-
-Session::~Session() {
-    delete _handler;
+Session::Session(tcp::socket socket, std::unique_ptr<Protocol> handler): 
+    _handler(std::move(handler)), _socket(std::move(socket)) {
 }
 
-tcp::socket& Session::socket() {
+const tcp::socket& Session::socket() const {
     return _socket;
 }
 
 void Session::start_read() {
     auto self(shared_from_this());
+    _handler->connection_made(self);
     boost::asio::async_read_until(
         _socket, 
         _buffer, 

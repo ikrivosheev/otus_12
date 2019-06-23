@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstddef>
+#include <memory>
 #include "state_machine.h"
-#include "logger.h"
 #include "console_handler.h"
 #include "file_handler.h"
 
@@ -25,7 +25,7 @@ namespace async {
             StateMachine _state;
     };
 
-    using handle_t = AsyncProxy*;
+    using handle_t = std::unique_ptr<AsyncProxy>;
 
     handle_t connect(std::size_t bulk);
     void receive(handle_t handle, const char *data, std::size_t size);

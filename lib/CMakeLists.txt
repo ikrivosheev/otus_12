@@ -1,4 +1,3 @@
-
 add_library(async 
     async.cpp 
     record.cpp 
@@ -15,4 +14,3 @@ set_target_properties(async PROPERTIES
 )
 
 target_include_directories(async PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-

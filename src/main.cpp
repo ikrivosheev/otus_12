@@ -15,8 +15,8 @@ int main(int argc, char* argv[]) {
     try {
         int bulk = std::atoi(argv[1]);
         boost::asio::io_service ios;
-        Server<BulkHandler, int> s(ios, std::atoi(argv[1]));
-        s.start_accept(bulk);
+        Server s(ios, std::atoi(argv[1]));
+        s.start_accept<BulkProtocol, int>(bulk);
         ios.run();
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";

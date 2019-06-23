@@ -19,7 +19,7 @@ namespace async {
     }
 
     handle_t connect(std::size_t bulk) {
-        return new AsyncProxy(bulk);
+        return std::make_unique<AsyncProxy>(bulk);
     }
 
     void receive(handle_t handle, const char *data, std::size_t size) {
@@ -27,7 +27,7 @@ namespace async {
     }
 
     void disconnect(handle_t handle) {
-        delete handle;
+        delete handle.release();
     }
 
 }
