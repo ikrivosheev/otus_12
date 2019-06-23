@@ -2,7 +2,7 @@
 
 
 Session::Session(tcp::socket socket, IHandler* handler): 
-    _socket(std::move(socket)), _handler(handler) {}
+    _handler(handler), _socket(std::move(socket)) {}
 
 Session::~Session() {
     delete _handler;
@@ -33,7 +33,6 @@ void Session::start_read() {
             }
             else {
                 std::cerr << "Error on read message: " << error.message() << std::endl;
-                _socket.close();
             }
     });
 }

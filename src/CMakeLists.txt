@@ -1,3 +1,8 @@
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+
+find_package(Threads REQUIRED)
+find_package(Boost REQUIRED system)
+
 add_executable(bulk_server main.cpp)
 
 set_target_properties(bulk_server PROPERTIES
@@ -6,5 +11,5 @@ set_target_properties(bulk_server PROPERTIES
    COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-target_link_libraries(bulk_server async server)
-
+target_link_libraries(bulk_server async server ${Boost_SYSTEM_LIBRARY} Threads::Threads)
+target_include_directories(bulk_server INTERFACE ${Boost_INCLUDE_DIR})
