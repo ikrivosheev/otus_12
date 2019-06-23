@@ -2,19 +2,19 @@
 #define BULK_HANDLER_H
 
 #include <memory>
-#include "async.h"
-#include "protocol.h"
-#include "session.h"
+#include "lib/async.h"
+#include "server/protocol.h"
+#include "server/session.h"
 
 
 class BulkProtocol: public Protocol {
     public:
-        BulkHandler(const int&);
+        BulkProtocol(const int&);
         void connection_made(std::shared_ptr<Session>) override;
         void data_received(char*, std::size_t) override;
         void connection_lost() override;
 
-        ~BulkHandler() = default;
+        ~BulkProtocol() = default;
 
     private:
         int _bulk;

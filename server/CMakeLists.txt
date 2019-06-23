@@ -1,4 +1,4 @@
-add_library(server session.cpp)
+add_library(server session.cpp manager.cpp)
 
 set_target_properties(server PROPERTIES
    CXX_STANDARD 14
@@ -6,4 +6,4 @@ set_target_properties(server PROPERTIES
    COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-target_include_directories(server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(server PUBLIC ${CMAKE_SOURCE_DIR})

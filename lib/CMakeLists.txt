@@ -13,4 +13,4 @@ set_target_properties(async PROPERTIES
    COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-target_include_directories(async PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(async PUBLIC ${CMAKE_SOURCE_DIR})

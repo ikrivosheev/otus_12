@@ -1,12 +1,12 @@
-#ifndef HANDLER_H
-#define HANDLER_H
+#ifndef PROTOCOL_H
+#define PROTOCOL_H
 
 #include <cstddef>
 #include <memory>
 
 class Session;
 
-class Protocol {
+class Protocol { 
     public:
         virtual void connection_made(std::shared_ptr<Session>) = 0;
         virtual void data_received(char*, std::size_t) = 0;
@@ -15,4 +15,4 @@ class Protocol {
 };
 
 
-#endif // HANDLER_H
+#endif // PROTOCOL_H

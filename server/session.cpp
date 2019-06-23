@@ -1,37 +1,38 @@
+#include "manager.h"
 #include "session.h"
 
 
-Session::Session(tcp::socket socket, std::unique_ptr<Protocol> handler): 
-    _handler(std::move(handler)), _socket(std::move(socket)) {
-}
+Session::Session(tcp::socket socket, Manager& manager, std::unique_ptr<Protocol> handler): 
+    _socket(std::move(socket)), _manager(manager), _handler(std::move(handler)) {}
 
 const tcp::socket& Session::socket() const {
     return _socket;
 }
 
+void Session::start() {
+    _handler->connection_made(shared_from_this());
+    start_read();
+}
+
+void Session::stop() {
+    _handler->connection_lost();
+    _socket.close();
+}
+
 void Session::start_read() {
     auto self(shared_from_this());
-    _handler->connection_made(self);
-    boost::asio::async_read_until(
-        _socket, 
-        _buffer, 
-        '\n', 
-        [this, self](const boost::system::error_code& error, std::size_t bytes_transferred) {
-            if (!error) {
-                if (bytes_transferred) {
-                    std::string line;
-                    std::istream is(&_buffer);
-                    std::getline(is, line);
-
-                    if (!line.empty()) {
-                        std::cout << "New line: " << line << std::endl;
-                    }
+    _socket.async_read_some(
+        boost::asio::buffer(_buffer), 
+        [this, self](
+            const boost::system::error_code& error, 
+            std::size_t bytes_transferred) {
+                if (!error) {
+                    self->_handler->data_received(_buffer.data(), bytes_transferred);
+                    start_read();
                 }
-                start_read();
-            }
-            else {
-                std::cerr << "Error on read message: " << error.message() << std::endl;
-            }
-    });
+                else if (error != boost::asio::error::operation_aborted) {
+                    _manager.stop(shared_from_this());
+                }
+        });
 }
 

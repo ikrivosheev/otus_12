@@ -2,7 +2,8 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-#include "server.h"
+#include "lib/async.h"
+#include "server/server.h"
 #include "bulk_handler.h"
 
 
@@ -11,9 +12,10 @@ int main(int argc, char* argv[]) {
       std::cerr << "Usage: bulk_server <port> <bulk_size>" << std::endl;
       return 1;
     }
-
+    
+    Logger::get().add_handler<ConsoleHandler>();
     try {
-        int bulk = std::atoi(argv[1]);
+        int bulk = std::atoi(argv[2]);
         boost::asio::io_service ios;
         Server s(ios, std::atoi(argv[1]));
         s.start_accept<BulkProtocol, int>(bulk);
