@@ -17,7 +17,7 @@ using boost::asio::ip::tcp;
 class Server: public boost::noncopyable {
     public:
         Server(boost::asio::io_service& ios, short port):
-            _ios(ios), _signals(ios), _acceptor(_ios, tcp::endpoint(tcp::v4(), port)) {
+            _ios(ios), _socket(ios), _signals(ios), _acceptor(_ios, tcp::endpoint(tcp::v4(), port)) {
 
             _signals.add(SIGINT);
             _signals.add(SIGTERM);
@@ -28,14 +28,14 @@ class Server: public boost::noncopyable {
         template<typename T, typename ...Args>
         void start_accept(const Args&... args) {
             static_assert(std::is_base_of<Protocol, T>::value, "Handler must be extend Protocol");
-             _acceptor.async_accept([this, args...](const boost::system::error_code& error, tcp::socket socket) {
+             _acceptor.async_accept(_socket, [this, args...](const boost::system::error_code& error) {
                 if (!_acceptor.is_open()) {
                     return;
                 }
                 if (!error) {        
                     std::unique_ptr<Protocol> handler = std::make_unique<T>(std::forward<const Args&>(args)...);
                     std::shared_ptr<Session> session = std::make_shared<Session>(
-                    std::move(socket), 
+                    std::move(_socket), 
                     _manager,
                     std::move(handler)
                 );
@@ -58,6 +58,7 @@ class Server: public boost::noncopyable {
 
     private:
         boost::asio::io_service& _ios;
+        boost::asio::ip::tcp::socket _socket;
         boost::asio::signal_set _signals;
         tcp::acceptor _acceptor;
         Manager _manager;
